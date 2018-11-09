@@ -1,0 +1,11 @@
+To run the program:
+
+**  NPM install to get the required files and modules
+**  type 'nodemon' in your command line 
+**  access the prohject from localhost:3000
+**  navigate throught he project using the minimal GUI
+
+
+NB: There is no need to enter login information. Simply clicking the Sign In button works for now!
+
+Thanks.
