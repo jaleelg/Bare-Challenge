@@ -1,0 +1,119 @@
+<% include partials/header %>
+
+<style>
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+li a.active {
+    color: white;
+    background-color: blue;
+}
+h1 {
+    padding: 20px 16px;
+}
+#container {
+    width: 85%;
+    margin: auto;
+    background: #f3f3f3;
+    padding: 70px;
+}
+#inner{
+    padding: 20px 16px;
+}
+</style>
+<ul>
+  <li><a class="active" href="/">Home</a></li>
+  <li><a href="/h2c">Company Search</a></li>
+  <li><a href="/c2h">Hedge Fund Search</a></li>
+  <li><a href="/inv">Investor Search</a></li>
+</ul>
+
+<h1 align="center"> Welcome to Jaleel Financial </h1>
+
+<div id="container">
+    <br> <br> <br>
+CHALLENGE
+Web Scraper + UI
+Skills Evaluated
+Frontend, Backend, Database, development intuition and programming approach
+Scenario
+Funds that invest in public companies must disclose their investments in a document
+known as the 13F Filing. Sales personnel at marketing firms typically have a curated list of
+investors at each of the funds they’d like to engage. If the salespersons have information
+about a public company they’d like to share, they need an easy way to contact an investor
+at a fund that is invested in that public company.
+Task
+Part 1 - Scraper (Backend, Database)
+Holdings Channel offers a simple interface to find hedge funds invested in a public
+company, as well as find companies where a huge fund is invested. For example, Fund A
+has Investor A and Investor B as investors, and Fund A is invested in Company A. To make
+it easier for sales people to parse through the website to find who is invested where,
+construct two endpoints:
+Endpoint #1 - Company to Hedge Funds
+Paramaters: ?symbol=<value>
+Response: JSON array with hedge fund name, amount, and date
+Sample: https://www.holdingschannel.com/bystock/?symbol=amzn
+Endpoint #2 - Hedge Fund to Companies
+Paramaters: ?name=<value>
+Response: JSON array with hedge fund’s investments’ entity, amount, and size
+Sample: https://www.holdingschannel.com/13f/vanguard-group-inc-top-holdings
+Use these endpoints (or others) to create the following databases/collections:
+• Investors - containing first name, last name, email, phone number (CSV attached)
+• Hedge Funds* - containing name (CSV attached)
+• Companies* - containing name, symbol, and market cap (CSV attached)
+* These databases are only to enable search suggestions for users. Users can search any
+value, results must only come from scraping.
+Tip: Libraries like Cheerio offers great scraping performance and options.
+Part 2 - GUI (Frontend)
+Using the endpoints above (and additional ones, if required or preferred), create an
+admin-like UI for sales people to be able to:
+• Search investors (suggest by name of investor or by hedge fund, allow any value)
+• View companies their hedge fund is invested in
+• Search hedge funds (suggest by name of hedge fund, allow any value)
+• View companies they are invested in
+• Search companies (suggest by name or symbol of company, allow any value)
+• View hedge funds invested in this company
+Note: Don’t forget to consider an Investor’s Hedge Fund name may not be an exact match
+as the Holdings Channel.
+Stack
+• Frontend - HTML/CSS/JS (if using a framework, only Bootstrap is allowed)
+• Backend - NodeJS (if using a framework, only Express is allowed, NPM packages
+accepted)
+• Database - MongoDB (if using a service, only MongoDB Atlas is allowed)
+• Cloud Platform - AWS, Google Cloud or Firebase only (Heroku, DigitalOcean, etc. are not
+allowed)
+Deliverable(s)
+• Endpoint URL(s)
+• Application URL
+• Source code (with fully-commented files) via GitHub repository
+Deadline
+This challenge should not take more than 24-36 hours to complete after receipt.
+Ownership
+All ownership of this project’s deliverables including source code must be transferred to
+the testing party upon completion and contractor onboarding.
+<br> <br> <br> 
+</div>
+
+<% include partials/footer %>

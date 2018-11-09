@@ -1,0 +1,61 @@
+<% include partials/header %>
+
+<style>
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+li a.active {
+    color: white;
+    background-color: blue;
+}
+h1 {
+    padding: 20px 16px;
+}
+#container {
+    width: 85%;
+    margin: auto;
+    background: #f3f3f3;
+    padding: 70px;
+}
+#inner{
+    padding: 20px 16px;
+}
+</style>
+<ul>
+  <li><a class="active" href="/">Home</a></li>
+  <li><a href="/h2c">Company Search</a></li>
+  <li><a href="/c2h">Hedge Fund Search</a></li>
+  <li><a href="/inv">Investor Search</a></li>
+</ul>
+
+<h1 align="center"> An Error Has Occured! </h1>
+
+<div id="container">
+    <br> <br> <br>
+No matching search found. 
+<br> <br> <br>
+</div>
+
+<% include partials/footer %>

@@ -1,0 +1,127 @@
+<% include partials/header %>
+
+<style>
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        background-color: blue;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: dodgerblue;
+    }
+
+    div {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+li a.active {
+    color: white;
+    background-color: blue;
+}
+#container {
+    width: 85%;
+    margin: auto;
+    background: #f3f3f3;
+    padding: 70px;
+}
+</style>
+<ul>
+  <li><a class="active" href="/">Home</a></li>
+  <li><a href="/h2c">Company Search</a></li>
+  <li><a href="/c2h">Hedge Fund Search</a></li>
+  <li><a href="/inv">Investor Search</a></li>
+</ul>
+
+<br> <br>
+<h1 align="center"> COMPANY SEARCH </h1>
+
+<div>
+  <form method="POST" action="/">
+    <label for="fname">Enter Hedge Fund Name: </label>
+    <input type="text" onkeyup="myFunc()" id="myInput" name="name" placeholder="Example: Vanguard Holding Ltd..">
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+<br> <br>
+
+<div id="container">
+    <br>
+    <h3> Suggestions: </h3>
+    <div id="suggestions">
+        <table id="myTable">
+            <tr>
+                <th>Name</th>
+            </tr>
+            <% results.forEach(function(n){ %>
+                <tr id="myTR">
+                <td><a> <%=n.Account_Name%> </a></td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+</div>
+
+<script>
+    function myFunc(){
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+<% include partials/footer %>

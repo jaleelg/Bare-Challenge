@@ -1,0 +1,24 @@
+{
+  "name": "bare",
+  "version": "1.0.0",
+  "description": "code challenge",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.9",
+    "nodemon": "^1.18.6"
+  },
+  "devDependencies": {
+    "body-parser": "*",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "*",
+    "node-fetch": "^2.2.1",
+    "request": "^2.88.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jaleel Grant",
+  "license": "ISC"
+}
