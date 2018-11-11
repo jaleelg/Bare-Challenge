@@ -4,22 +4,6 @@ const path = require('path');
 const request = require('request');
 const cheerio = require('cheerio');
 const MongoClient = require('mongodb').MongoClient;
-
-/* const uri = "mongodb+srv://admin:Zarick23!@cluster0-yv422.mongodb.net/test?retryWrites=true";
-MongoClient.connect(uri, { useNewUrlParser: true }, function(err, client) {
-    if(err){
-        console.log("Error connecting to MongoDB Atlas!");
-    }
-    console.log('Connected! .....');
-
-    const Companies = client.db("Bare").collection("Companies");
-    const HedgeFunds = client.db("Bare").collection("HedgeFunds");
-    const Investors = client.db("Bare").collection("Investors");
-
-    // perform actions on the collection object
-    client.close();
-});*/
-
 var app = express();
 
 app.set('view engine', 'ejs');
@@ -60,7 +44,8 @@ app.get('/', function(req, res){
                 }
             }else{
                 res.render('error', {
-                    "title": "ERROR"
+                    "title": "ERROR",
+                    "error": "Invalid query."
                 });
             }
         });
@@ -91,13 +76,15 @@ app.get('/', function(req, res){
                 }
             }else{
                 res.render('error', {
-                    "title": "ERROR"
+                    "title": "ERROR",
+                    "error": "Invalid query."
                 });
             }
         });
     }else{
-        res.render('index', {
-            "title": "Home Page"
+        res.render('error', {
+            "title": "ERROR",
+            "error": "Invalid query."
         });
     }
 });
@@ -105,17 +92,21 @@ app.get('/', function(req, res){
 app.post('/', function(req, res){
     if(req.body.name){
         //console.log("name: " + req.body.name);
-        searchName = req.body.name;
+        searchName = req.body.name.toLowerCase();
+        var entry = "";
         var fixed = searchName.split(" ");
         //console.log(fixed);
         //console.log(fixed.length);
         var searchString = 'https://fintel.io/i/';
         for(var x = 0; x < fixed.length; x++){
             if(x != fixed.length-1){
+                entry = entry + fixed[x];
+                entry = entry + '-';
                 searchString = searchString + fixed[x];
                 searchString = searchString + '-';
             }else{
                 searchString = searchString + fixed[x];
+                entry = entry + fixed[x];
             }
         }
         console.log(searchString);
@@ -155,8 +146,68 @@ app.post('/', function(req, res){
                     "results": list
                 });
             }else{
-                res.render('error', {
-                    "title": "ERROR"
+                //console.log("name: " + req.body.name);
+                searchName = req.body.name;
+                var fixed = searchName.split(" ");
+                //console.log(fixed);
+                //console.log(fixed.length);
+                var searchString = 'https://fintel.io/search?search=';
+                for(var x = 0; x < fixed.length; x++){
+                    if(x != fixed.length-1){
+                        searchString = searchString + fixed[x];
+                        searchString = searchString + '+';
+                    }else{
+                        searchString = searchString + fixed[x];
+                    }
+                }
+                console.log(searchString);
+                //var searchString = 'https://fintel.io/i/' + req.body.name;
+                request(searchString, (error, response, html) => {
+                    if(!error && response.statusCode == 200){
+                        const $ = cheerio.load(html);
+
+                        //owner
+                        i = 2;
+                        var myurl = '#ownerList > p:nth-child(' + i +')';
+                        var row = $(myurl);
+                        var list = [];
+                        while(row.text()){
+                            list.unshift(row.text());
+                            console.log(row.text());
+
+                            i++;
+                            myurl = '#ownerList > p:nth-child(' + i +')';
+                            row = $(myurl);
+                        }
+
+                        //Investors
+                        i = 2;
+                        var myurl = '#insiderList > p:nth-child(' + i +')';
+                        var row = $(myurl);
+                        var list2 = [];
+                        while(row.text()){
+
+                            list2.unshift(row.text());
+                            console.log(row.text());
+
+                            //#insiderList > p:nth-child(3)
+                            i++;
+                            myurl = '#insiderList > p:nth-child(' + i +')';
+                            row = $(myurl);
+                        }
+
+                        //res.send(list);
+                        res.render('noExact', {
+                            "title": "Alternatives",
+                            "results": list,
+                            "results2": list2
+                        });
+                    }else{
+                        res.render('error', {
+                            "title": "ERROR",
+                            "error": "Invalid query."
+                        });
+                    }
                 });
             }
         });
@@ -189,15 +240,93 @@ app.post('/', function(req, res){
                 }
 
                 //res.send(list);
-                res.render('hedgeResults', {
+                res.render('hedgeFundResults', {
                     "title": "Search Results",
                     "results": list
                 });
             }else{
                 res.render('error', {
-                    "title": "ERROR"
+                    "title": "ERROR",
+                    "error": "Invalid query."
                 });
             }
+        });
+    }else if(req.body.investor){
+        const uri = "mongodb+srv://admin:Zarick23!@cluster0-yv422.mongodb.net/test?retryWrites=true";
+        MongoClient.connect(uri, { useNewUrlParser: true }, function(err, client) {
+            if(err){
+                console.log("Error connecting to MongoDB Atlas!");
+            }
+            console.log('Connected! .....');
+
+            const Investors = client.db("Bare").collection("Investors");
+            var investorname = req.body.investor;
+            investorname = investorname.toLowerCase()
+            .split(' ')
+            .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+            .join(' ');
+
+            Investors.find({ "Name" : investorname }).toArray(function(err2, result){
+                if(err2){
+                    console.log(err2);
+                }else if(result.length){
+                    console.log(result[0].Account_Name);
+                    searchName = result[0].Account_Name;
+                    var fixed = searchName.toLowerCase().split(" ");
+                    var searchString = 'https://fintel.io/i/';
+                    for(var x = 0; x < fixed.length; x++){
+                        if(x != fixed.length-1){
+                            searchString = searchString + fixed[x];
+                            searchString = searchString + '-';
+                        }else{
+                            searchString = searchString + fixed[x];
+                        }
+                    }
+                    console.log(searchString);
+                    request(searchString, (error, response, html) => {
+                        if(!error && response.statusCode == 200){
+                            const $ = cheerio.load(html);
+
+                            i = 1;
+                            var myurl = '#topic-table-body > table > tbody > tr:nth-child(' + i +')';
+                            var row = $(myurl);
+                            var list = [];
+                            while(row.text()){
+
+                                bulk = row.text().split('\n');
+
+                                companies = {
+                                    "name": bulk[3],
+                                    "amount": bulk[7],
+                                    "size": bulk[9]
+                                }
+                                list.unshift(companies);
+                                console.log(companies);
+
+                                i++;
+                                myurl = '#topic-table-body > table > tbody > tr:nth-child(' + i +')';
+                                row = $(myurl);
+
+                                if(!(bulk[3] && bulk[7] && bulk[9])){
+                                    break;
+                                }
+                            }
+                            res.render('companyResults', {
+                                "title": "Search Results",
+                                "results": list
+                            });
+                        }else{
+                            res.render('error', {
+                                "title": "ERROR",
+                                "error": "No matching documents found."
+                            });
+                        }
+                    });
+                }else{
+                    res.send('No matching investor!');
+                }
+                client.close();
+            });
         });
     }else{
         console.log("received other");
@@ -205,12 +334,33 @@ app.post('/', function(req, res){
 });
 
 app.post('/login', function(req, res){
-    res.render('menu', {
-        "title": "Menu Page"
+    const uri = "mongodb+srv://admin:Zarick23!@cluster0-yv422.mongodb.net/test?retryWrites=true";
+    MongoClient.connect(uri, { useNewUrlParser: true }, function(err, client) {
+        if(err){
+            console.log("Error connecting to MongoDB Atlas!");
+        }
+        console.log('Connected! .....');
+
+        const ActInfo = client.db("Bare").collection("Account Information");
+        ActInfo.find({ "username" : req.body.uname, "password": req.body.pword }).toArray(function(err2, result){
+            if(err2){
+                console.log(err2);
+            }else if(result.length){
+                console.log(result);
+                res.render('menu', {
+                    "title": "Entry Page",
+                    "results": result
+                });
+            }else{
+                res.send('No documents.');
+            }
+            console.log('Disconnecting from DB! .....');
+            client.close();
+        });
     });
 });
 
-app.get('/c2h', function(req, res){
+app.get('/hedgeFundSearch', function(req, res){
     const uri = "mongodb+srv://admin:Zarick23!@cluster0-yv422.mongodb.net/test?retryWrites=true";
     MongoClient.connect(uri, { useNewUrlParser: true }, function(err, client) {
         if(err){
@@ -223,8 +373,8 @@ app.get('/c2h', function(req, res){
             if(err2){
                 console.log(err2);
             }else if(result.length){
-                res.render('c2h', {
-                    "title": "Company ==> Hedge Fund",
+                res.render('hedgeFundSearch', {
+                    "title": "Hedge Fund Search",
                     "results": result
                 });
             }else{
@@ -236,13 +386,32 @@ app.get('/c2h', function(req, res){
     });
 });
 
-app.get('/inv', function(req, res){
-    res.render('inv', {
-        "title": "Investor Search"
+app.get('/investorSearch', function(req, res){
+    const uri = "mongodb+srv://admin:Zarick23!@cluster0-yv422.mongodb.net/test?retryWrites=true";
+    MongoClient.connect(uri, { useNewUrlParser: true }, function(err, client) {
+        if(err){
+            console.log("Error connecting to MongoDB Atlas!");
+        }
+        console.log('Connected! .....');
+
+        const Investors = client.db("Bare").collection("Investors");
+        Investors.find({}).toArray(function(err2, result){
+            if(err2){
+                console.log(err2);
+            }else if(result.length){
+                res.render('investorSearch', {
+                    "title": "Investor Search",
+                    "results": result
+                });
+            }else{
+                res.send('No documents.');
+            }
+            client.close();
+        });
     });
 });
 
-app.get('/h2c', function(req, res){
+app.get('/companySearch', function(req, res){
     const uri = "mongodb+srv://admin:Zarick23!@cluster0-yv422.mongodb.net/test?retryWrites=true";
     MongoClient.connect(uri, { useNewUrlParser: true }, function(err, client) {
         if(err){
@@ -255,8 +424,8 @@ app.get('/h2c', function(req, res){
             if(err2){
                 console.log(err2);
             }else if(result.length){
-                res.render('h2c', {
-                    "title": "Hedge Fund Search",
+                res.render('companySearch', {
+                    "title": "Company Search",
                     "results": result
                 });
             }else{
@@ -264,7 +433,12 @@ app.get('/h2c', function(req, res){
             }
             client.close();
         });
-        // perform actions on the collection object
+    });
+});
+
+app.get('/menu', function(req, res){
+    res.render('menu', {
+        "title": "Menu Page"
     });
 });
 

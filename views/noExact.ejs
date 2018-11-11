@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="/css/menu.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+        <title> <%= title %> </title>
+    </head>
+    <nav>
+        <ul id="ul">
+          <li id="li"><a href="/menu">Home</a></li>
+          <li id="li"><a href="/companySearch">Company Search</a></li>
+          <li id="li"><a href="/hedgeFundSearch">Hedge Fund Search</a></li>
+          <li id="li"><a href="/investorSearch">Investor Search</a></li>
+        </ul>
+    </nav>
+    <body>
+        <div id="container">
+            <p class="w3-xxxlarge" align="center">No Exact Match Found!</p>
+            <br> <br> <br>
+            <div id="sug">
+                <h4>The following investor profiles matched your query: </h4>
+                <ul>
+                    <% results.forEach(function(r){ %>
+                        <li><%=r%></li>
+                    <% }) %>
+                </ul>
+            </div>
+
+            <div id="sug">
+                <h4>The following insiders matched your query: </h4>
+                <ul>
+                    <% results2.forEach(function(r2){ %>
+                        <li><%=r2%></li>
+                    <% }) %>
+                </ul>
+            </div>
+
+            <br> <br>
+            <form method="POST" action="/">
+                <label for="fname">Enter Another Hedge Fund Name: </label> <br>
+                <input type="text" id="myInput" name="name" placeholder="Example: Vanguard Group..">
+
+                <input type="submit" value="Search Again">
+            </form>
+
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+        </div>
+
+    </body>
+</html>

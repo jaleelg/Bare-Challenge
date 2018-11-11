@@ -1,0 +1,64 @@
+body{
+    background-image: url("../img/bg-callout.jpg");
+    background-color: #cccccc;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+input[type=text], select {
+    width: 150%;
+    padding: 12px 20px;
+    height: 75px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 150%;
+    background-color: black;
+    height: 75px;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: black;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+form{
+    padding-left: 50px;
+}
+
+label{
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+h1{
+    font-family: "Trattatello", fantasy;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}

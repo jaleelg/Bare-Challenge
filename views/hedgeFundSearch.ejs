@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="/css/search.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+        <title> <%= title %> </title>
+    </head>
+    <nav>
+        <ul>
+          <li><a href="/menu">Home</a></li>
+          <li><a href="/companySearch">Company Search</a></li>
+          <li><a class="active" href="/hedgeFundSearch">Hedge Fund Search</a></li>
+          <li><a href="/investorSearch">Investor Search</a></li>
+        </ul>
+    </nav>
+    <body>
+        <div id="container">
+            <p class="w3-xxxlarge" align="center">Search for a Hedge Fund!</p>
+
+            <table style="width:85%" id="outerTable">
+                <tr id="outerTR">
+                    <th id="outerTH"> </th>
+                    <th> </th>
+                </tr>
+                <tr>
+                    <td id="outerTD" style="vertical-align: top">
+                    <div id="container-left">
+                        <br> <br>
+                        <form method="POST" action="/">
+                            <label for="fname">Enter Company Symbol Name: </label> <br>
+                            <input type="text" onkeyup="search()" id="myInput" name="symbol" placeholder="Example: AMZN (case-sensitive)">
+
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
+                    </td>
+                    <td>
+                    <div id="container-right">
+                        <p class="w3-xlarge" align="center">SUGGESTIONS</p>
+                        <div id="suggestions">
+                            <table id="myTable">
+                                <% results.forEach(function(sym){ %>
+                                    <tr id="myTR">
+                                    <td><a> <%=sym.Symbol%> </a></td>
+                                    <td><a> <%=sym.Name%> </a></td>
+                                    </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                    </div>
+                    </td>
+                </tr>
+            </table>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+        </div>
+
+        <script type="text/javascript" src="/js/search.js"></script>
+    </body>
+</html>

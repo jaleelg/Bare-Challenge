@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="/css/search.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+        <title> <%= title %> </title>
+    </head>
+    <nav>
+        <ul>
+          <li><a href="/menu">Home</a></li>
+          <li><a class="active" href="/companySearch">Company Search</a></li>
+          <li><a href="/hedgeFundSearch">Hedge Fund Search</a></li>
+          <li><a href="/investorSearch">Investor Search</a></li>
+        </ul>
+    </nav>
+    <body>
+        <div id="container">
+            <p class="w3-xxxlarge" align="center">Search for a Company!</p>
+
+            <table style="width:85%" id="outerTable">
+                <tr id="outerTR">
+                    <th id="outerTH"> </th>
+                    <th> </th>
+                </tr>
+                <tr>
+                    <td id="outerTD" style="vertical-align: top">
+                    <div id="container-left">
+                        <br> <br>
+                        <form method="POST" action="/">
+                            <label for="fname">Enter Hedge Fund Name: </label> <br>
+                            <input type="text" onkeyup="search()" id="myInput" name="name" placeholder="Example: Vanguard Group..">
+
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
+                    </td>
+                    <td>
+                    <div id="container-right">
+                        <p class="w3-xlarge">SUGGESTIONS</p>
+                        <div id="suggestions">
+                            <table id="myTable">
+                                <tr>
+                                    <th></th>
+                                </tr>
+                                <% results.forEach(function(n){ %>
+                                    <tr id="myTR">
+                                    <td><a> <%=n.Account_Name%> </a></td>
+                                    </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                    </div>
+                    </td>
+                </tr>
+            </table>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+        </div>
+        
+        <script type="text/javascript" src="/js/search.js"></script>
+    </body>
+</html>
